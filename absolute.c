@@ -1,45 +1,33 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 void main(){
-    FILE *f1,*f2;
-    int str,j,i;
-    char line[50],stradd[10];
-    printf("--------------Absolute Loader---------------\n");
+    printf("----------------ABSOLUTE LOADER ----------------\n");
+    FILE *f1;
+    int i,j,hexadd;
+    char line[50],add[10];
     f1=fopen("input.txt","r");
-    f2=fopen("output.txt","w");
+    fscanf(f1,"%s",line);
+    printf("%s \n",line);
     do{
         fscanf(f1,"%s",line);
         if(line[0]=='T'){
-                for(int i=2,j=0;i<8;i++,j++){
-                        stradd[j]=line[i];
-                }
-                str=atoi(stradd);
-                i=12;
-                while(line[i]!='$'){
-                    if(line[i]!='^'){
-                        printf("00%d \t %c%c \n",str,line[i],line[i+1]);
-                        fprintf(f2,"%d \t %c%c",str,line[i],line[i+1]);
-                        str++;
-                        i=i+2;
-                    }
-                    else{
-                        i=i+1;
-                    }
-
-                }
+            for(i=1,j=0;i<=6;i++,j++){
+                add[j]=line[i];
+            }add[j]='\0';
+        sscanf(add,"%x",&hexadd);
+        i=9;
+        while(line[i]!='$'){
+            printf("00%x \t %d%d \n",hexadd,line[i],line[i+1]);
+            hexadd++;
+            i=i+2;
+        }
         }
         else if(line[0]=='E'){
-            printf("End");
+            printf("end");
             break;
-            
         }
     }while(!feof(f1));
+    fclose(f1);
 }
 
-
-
-*******************************INPUT.TXT***********************
-H^SAMPLE^001000^0035
-T^001000^0C^001003^071009$
-T^002000^03^111111$
-E^001000
