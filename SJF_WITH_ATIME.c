@@ -34,11 +34,9 @@ void main(){
             }
         }
         if(index==-1){
-            printf("Hello");
             time++;
         }
         else{
-            printf("test1");
             finish[index]=1;
             remain--;
             time=time+p[index].btime;
