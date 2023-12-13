@@ -1,0 +1,49 @@
+data segment
+    msg1 db 10,13,"ENTER THE STRING:$"
+    msg2 db 10,13,"PALINDROM$"
+    msg3 db 10,13,"NOT PALINDROME"
+    str db 50 dup(0)
+data ends
+code segment 
+    assume cs:code ds:data
+    start:
+    mov ax,data
+    mov ds,ax
+    lea dx,msg1
+    mov ah,09h
+    int 21h
+    lea di,str
+    lea si,str
+    mov ah,01h
+    next:
+        int 21h
+        cmp al,0DH
+        JE TERMINATE
+        mov [di],al
+        inc di
+        jmp next
+    TERMINATE:
+        mov al,"$"
+        mov [di],al
+    dothis:   
+        dec di
+        mov al,[si]
+        cmp al,[di]
+        jne notpalindrome
+        inc si
+        cmp si,di
+        jl dothis
+        lea dx,msg2
+        mov ah,09h
+        int 21h
+        jmp xx
+    notpalindrome:
+        lea dx,msg3
+        mov ah,09h
+        int 21h
+        jmp xx
+    xx:
+        mov ah,04ch
+        int 21h
+    code ends
+    end start
